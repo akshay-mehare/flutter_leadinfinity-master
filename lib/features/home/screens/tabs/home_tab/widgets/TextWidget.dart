@@ -16,16 +16,13 @@ class TextRow extends StatelessWidget {
       children:  [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               color: Color(0xFF281657), fontWeight: FontWeight.w800, fontSize: 18),
         ),
-        const Padding(
-          padding: EdgeInsets.only(right: 15.0),
-          child: Text(
-            "View all",
-            style: TextStyle(
-                color: Color(0xFF5932DE), fontWeight: FontWeight.w800, fontSize: 14 ),
-          ),
+        const Text(
+          "View all",
+          style: TextStyle(
+              color: Color(0xFF5932DE), fontWeight: FontWeight.w800, fontSize: 14 ),
         ),
       ],
     );

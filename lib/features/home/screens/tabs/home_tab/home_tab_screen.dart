@@ -9,6 +9,8 @@ import 'package:flutter_leadinfinity/features/home/screens/tabs/home_tab/widgets
 import 'package:flutter_leadinfinity/widgets/common_appbar.dart';
 
 import '../calender_tab/calender_tab_screen.dart';
+import '../call_tab/call_screen.dart';
+import '../menu_tab/menu_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -24,6 +26,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final screens = [
      HomePageClass(),
     Calender(),
+    CallScreen(),
+    MenuScreen()
 
   ];
   @override
@@ -146,14 +150,16 @@ class TextWidget extends StatelessWidget {
         ),
         Row(
           children: const [
-            Padding(
-              padding: EdgeInsets.only(top: 5.0),
-              child: Text(
-                "Have a look at your Today's upcoming activities,",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: Text(
+                  "Have a look at your Today's upcoming activities,",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15),
+                ),
               ),
             ),
           ],
