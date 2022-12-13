@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'OnsiteRegistrationPage.dart';
 
 // Floating Action Button Class
 class floating_action_button extends StatelessWidget {
@@ -10,10 +11,10 @@ class floating_action_button extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const Calender()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const OnsiteRegistration()),
+        );
       },
       child: Container(
         height: 60,
