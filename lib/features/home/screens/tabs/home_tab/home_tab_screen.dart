@@ -99,7 +99,10 @@ class HomePageClass extends StatelessWidget {
               TextRow(title: "Leads"),
 
               const ListOfLeadsCards(),
-              TextRow(title: "Site Visits"),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextRow(title: "Site Visits"),
+              ),
 
               const ListOfLeadsCards(),
 

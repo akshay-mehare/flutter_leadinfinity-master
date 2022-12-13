@@ -12,6 +12,17 @@ class ListOfCards extends StatefulWidget {
   State<ListOfCards> createState() => _ListOfCardsState();
 }
 
+List gradColor1=[
+  0xFFFFCB59,
+  0xFFFF699c,
+  0xFF9C6BFF
+];
+List gradColor2=[
+  0xFFFF699C,
+  0xFF9C6BFF,
+  0xFF4E3680
+];
+
 class _ListOfCardsState extends State<ListOfCards> {
   @override
   Widget build(BuildContext context) {
@@ -38,13 +49,13 @@ class _ListOfCardsState extends State<ListOfCards> {
                   child: Stack(
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment(-1, -1),
                               end: Alignment(1, 1),
                               colors: [
-                                Color(0xFFFFCB59),
-                                Color(0xFFFF699C),
+                                Color(gradColor1[index % gradColor1.length]),
+                                Color(gradColor2[index % gradColor2.length])
                               ],
                             )),
                       ),

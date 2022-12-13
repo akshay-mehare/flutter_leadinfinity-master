@@ -13,7 +13,7 @@ class ListOfLeadsCards extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
 
         shrinkWrap: true,
-        itemCount: 5,
+        itemCount: 3,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(right: 12.0),
@@ -148,17 +148,14 @@ class ListOfLeadsCards extends StatelessWidget {
                               Wrap(
                                 spacing: 12,
                                 children: const [
-                                  Icon(Icons.calendar_today_outlined,size: 17),
-                                  Icon(Icons.call,size: 17,),
-                                  Icon(Icons.more_vert,size: 17,)
+                                  Icon(Icons.calendar_today_outlined,size: 18,),
+                                  Icon(Icons.call,size: 18,),
+                                  Icon(Icons.more_vert,size: 18,)
                                 ],
                               )
                             ],
                           ),
                         )
-
-
-
                       ],
                     ),
                   )

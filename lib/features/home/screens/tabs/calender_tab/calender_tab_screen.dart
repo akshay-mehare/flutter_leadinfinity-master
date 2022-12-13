@@ -8,6 +8,7 @@ class Calender extends StatefulWidget {
   @override
   State<Calender> createState() => _CalenderState();
 }
+List<bool> isCardEnabled = [];
 
 class _CalenderState extends State<Calender> {
   @override
@@ -17,7 +18,7 @@ class _CalenderState extends State<Calender> {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         color: Colors.white,
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.8,
         width: MediaQuery.of(context).size.width ,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,6 +135,7 @@ class _CalenderState extends State<Calender> {
               padding: EdgeInsets.only(top: 16.0,bottom: 8.0),
               child: Text("Select Type"),
             ),
+
           ],
         ),
       ),
