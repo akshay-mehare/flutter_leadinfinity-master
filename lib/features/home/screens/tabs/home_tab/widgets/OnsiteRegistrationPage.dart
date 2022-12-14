@@ -458,20 +458,57 @@ class AdditionalInfoContainer extends StatefulWidget {
 }
 
 
+
 class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
 
 
-  // void _addTextField() {
-  //   setState(() {
-  //     _textFields.add(
-  //       TextFormField(
-  //         decoration: InputDecoration(
-  //           labelText: 'Text Field',
-  //         ),
-  //       ),
-  //     );
-  //   });
-  // }
+  final TextEditingController purposeController = TextEditingController();
+
+  List _textFields=[];
+  List PurposeControolerValueList=[];
+
+  void _addTextField() {
+    setState(() {
+      _textFields.add(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Padding(
+                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                child:
+                Text(PurposeControolerValueList[PurposeControolerValueList. length - 1],style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
+              ),
+              TextFormField(
+                cursorColor: Colors.black,
+                decoration:  InputDecoration(
+                  enabledBorder:const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xFFE6E0E8)
+                      ,
+                    ),
+                  ) ,
+                  hintText: "Enter ${PurposeControolerValueList[PurposeControolerValueList. length - 1]}",
+
+                  hintStyle: const TextStyle(
+                      color: Color(0xFFB0A8BA)
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 14.0, horizontal: 14.0),
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.red
+                      // Color(0xFFB0A8BA),
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xFFF9F6F9),
+                ),
+              ),
+            ],
+          ),
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -497,9 +534,13 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                                 padding: EdgeInsets.only(top: 4.0,bottom: 4.0),
                                 child: Divider(thickness: 1.5,),
                               ),
+
+                              for(var textfield in _textFields) textfield,
+
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
+                                padding: const EdgeInsets.only(bottom: 6.0,top: 10.0),
                                 child: TextFormField(
+                                  controller: purposeController,
                                   cursorColor: Colors.black,
                                   decoration: const InputDecoration(
                                     enabledBorder:OutlineInputBorder(
@@ -537,7 +578,11 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                                           textStyle: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500)),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        PurposeControolerValueList.add(purposeController.text.toString());
+                                        purposeController.clear();
+                                        _addTextField();
+                                      },
                                       icon: const Icon(Icons.check_circle,
                                           color: Colors.white),
                                       label: const Text(
@@ -584,6 +629,7 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                                               color: Color(0xFF8A60E0),
                                               fontWeight: FontWeight.w800)),
                                       onPressed: () {
+                                        // _addPurposeText();
                                         // _addTextField();
                                         // AddCustomFieldWidget();
                                       },
