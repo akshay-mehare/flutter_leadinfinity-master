@@ -5,6 +5,9 @@ import 'package:group_button/group_button.dart';
 import '../home_tab_screen.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
+
+List ediddd=[];
+
 class OnsiteRegistration extends StatefulWidget {
   const OnsiteRegistration({Key? key}) : super(key: key);
 
@@ -12,6 +15,7 @@ class OnsiteRegistration extends StatefulWidget {
   State<OnsiteRegistration> createState() => _OnsiteRegistrationState();
 }
 
+final _formKey = GlobalKey<FormState>();
 List<bool> isCardEnabled = [];
 final radioButtonController = GroupButtonController();
 bool _switchValue = true;
@@ -55,6 +59,7 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
               right: 20.0,
             ),
             child: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   BasicInfoContainer(context),
@@ -202,7 +207,13 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
                           disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,),
 
-                        onPressed: (){},
+                        onPressed: (){
+
+
+                          print(_controllers);
+                          print(ediddd);
+
+                        },
 
                         child: const Center(
                           child: Text(
@@ -457,19 +468,51 @@ class AdditionalInfoContainer extends StatefulWidget {
   State<AdditionalInfoContainer> createState() => _AdditionalInfoContainerState();
 }
 
-
+final List<TextEditingController> _controllers = [    TextEditingController(),  ];
 
 class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
 
 
   final TextEditingController purposeController = TextEditingController();
+  final TextEditingController contfun = TextEditingController();
+  final TextEditingController _generatedController = TextEditingController();
+
+
+
+  void _addController(String input) {
+    // Generate a word related to the input word
+    // String generatedWord = input;
+
+
+    // Create a map to store the controllers
+    Map<String, TextEditingController> controllers = {};
+
+    String variableName = input;
+    // controllers[variableName]=TextEditingController();
+
+
+    // Add the controller to the list of controllers
+    setState(() {
+      _controllers.add(controllers[variableName]=TextEditingController());
+      ediddd=_controllers;
+    });
+  }
 
   List _textFields=[];
   List PurposeControolerValueList=[];
+  List funControoler=[];
 
   void _addTextField() {
+    print("_addTextField running");
     setState(() {
+
+      print("in setstate-----");
+      print(_controllers);
+      print("__________________");
+      // print(_controllers(_controllers.length-1));
+      print(_controllers.last);
       _textFields.add(
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -478,7 +521,10 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                 child:
                 Text(PurposeControolerValueList[PurposeControolerValueList. length - 1],style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
               ),
+
               TextFormField(
+                controller: _controllers.last,
+
                 cursorColor: Colors.black,
                 decoration:  InputDecoration(
                   enabledBorder:const OutlineInputBorder(
@@ -508,6 +554,7 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
           ),
       );
     });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -542,6 +589,16 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                                 child: TextFormField(
                                   controller: purposeController,
                                   cursorColor: Colors.black,
+                                  onEditingComplete: (){
+                                    print("editing completed----");
+                                  },
+                                  onSaved: (text){
+                                    print("saving completed----$text");
+                                  },
+                                  onFieldSubmitted: (yah){
+                                    print("onfieldcompleted$yah");
+                                  },
+                                  // onChanged: (text)=> _generateRelatedWord(text),
                                   decoration: const InputDecoration(
                                     enabledBorder:OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -579,6 +636,7 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500)),
                                       onPressed: () {
+                                        _addController(purposeController.text.toString());
                                         PurposeControolerValueList.add(purposeController.text.toString());
                                         purposeController.clear();
                                         _addTextField();
@@ -629,6 +687,9 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
                                               color: Color(0xFF8A60E0),
                                               fontWeight: FontWeight.w800)),
                                       onPressed: () {
+                                        print("------------------");
+                                        print(_controllers);
+                                        // print(funControoler);
                                         // _addPurposeText();
                                         // _addTextField();
                                         // AddCustomFieldWidget();
