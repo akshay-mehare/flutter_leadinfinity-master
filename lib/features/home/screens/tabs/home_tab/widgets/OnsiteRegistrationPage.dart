@@ -1,12 +1,12 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
-
+import 'package:provider/provider.dart';
+import '../../../../providers/provider_for_onSiteReg.dart';
 import '../home_tab_screen.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
-
-List ediddd=[];
+List ediddd = [];
 
 class OnsiteRegistration extends StatefulWidget {
   const OnsiteRegistration({Key? key}) : super(key: key);
@@ -16,11 +16,17 @@ class OnsiteRegistration extends StatefulWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
-List<bool> isCardEnabled = [];
 final radioButtonController = GroupButtonController();
-bool _switchValue = true;
-
 final TextEditingController dateController = TextEditingController();
+final TextEditingController fullName = TextEditingController();
+
+final TextEditingController mobileNumber = TextEditingController();
+
+final TextEditingController emailID = TextEditingController();
+
+final TextEditingController project = TextEditingController();
+
+String type = "";
 
 class _OnsiteRegistrationState extends State<OnsiteRegistration> {
   @override
@@ -30,11 +36,9 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
         title: const Text(
           "Onsite Registration",
           style: TextStyle(
-            fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black
               // Color(0xFFF1EDF2,)
-          ),
+              ),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -62,159 +66,32 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
               key: _formKey,
               child: Column(
                 children: [
-                  BasicInfoContainer(context),
-
+                  BasicInfo(),
                   const AdditionalInfoContainer(),
-
+                  const ScheduleSiteVisit(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Schedule Site Visit",style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF281657)
-                              )),
-                              FlutterSwitch(
-                                height: 24,
-                                width: 50,
-                                activeColor: const Color(0XFF3EBEA8),
-                                  value: _switchValue,
-                                  onToggle: (value) {
-                                    setState(() {
-                                      _switchValue = value;
-                                    });
-                                  })
-                            ],
-                          ),
-
-                          _switchValue?Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 4.0,bottom: 4.0),
-                                child:  Divider(thickness: 1.5,),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                                child: Text("Expected Date",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-                              ),
-
-
-                              TextFormField(
-                                controller: dateController,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                focusNode: AlwaysDisabledFocusNode1(),
-                                onTap: () async {
-                                  var date = await buildShowDatePicker(context);
-                                  // dateController.text = date.toString().substring(0, 10);
-                                },
-                                cursorColor: Colors.black,
-                                decoration: const InputDecoration(
-                                  enabledBorder:OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFE6E0E8)
-                                      ,
-                                    ),
-                                  ),
-                                  suffixIcon: Icon(
-                                    Icons.calendar_today_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  hintText: "Select Date",
-                                  hintStyle: TextStyle(
-                                      color: Color(0xFFB0A8BA)
-                                  ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 14.0, horizontal: 14.0),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      // color: Color(0xFFF9F6F9),
-                                    ),
-                                  ),
-                                  filled: true,
-                                  fillColor: Color(0xFFF9F6F9),
-                                ),
-                              ),
-
-
-                              const Padding(
-                                padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                                child: Text("Notes",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-                              ),
-
-                              TextFormField(
-                                maxLines: 3,
-                                cursorColor: Colors.black,
-                                decoration: const InputDecoration(
-                                  enabledBorder:OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFE6E0E8)
-                                      ,
-                                    ),
-                                  ),
-                                  hintText: "Enter Notes",
-                                  hintStyle: TextStyle(
-                                      color: Color(0xFFB0A8BA)
-                                  ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 14.0, horizontal: 14.0),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      // color: Color(0xFFF9F6F9),
-                                    ),
-                                  ),
-                                  filled: true,
-                                  fillColor: Color(0xFFF9F6F9),
-                                ),
-                              ),
-                            ],
-                          ):const SizedBox()
-
-
-
-
-                        ],
-                      ),
-                    ),
-                  ),
-
-
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.0),
                         gradient: const LinearGradient(
                           begin: Alignment(-1, -1),
                           end: Alignment(1, 1),
-                          colors: [
-                            Color(0xFFFF699C),
-                            Color(0xFF9C6BFF)
-                          ],
+                          colors: [Color(0xFFFF699C), Color(0xFF9C6BFF)],
                         ),
                       ),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent,
-                          disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
-                          shadowColor: Colors.transparent,),
-
-                        onPressed: (){
-
-
-                          print(_controllers);
-                          print(ediddd);
-
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
+                          shadowColor: Colors.transparent,
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
                         },
-
                         child: const Center(
                           child: Text(
                             'SUBMIT',
@@ -230,7 +107,6 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
                       ),
                     ),
                   )
-
                 ],
               ),
             ),
@@ -239,250 +115,248 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
       ),
     );
   }
+}
 
+// Class for Basic Information
+class BasicInfo extends StatefulWidget {
+  BasicInfo({
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  State<BasicInfo> createState() => _BasicInfoState();
+}
 
-
-  Container BasicInfoContainer(BuildContext context) {
+class _BasicInfoState extends State<BasicInfo> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
-                  padding: const EdgeInsets.all(15.0),
-                  color: Colors.white,
-                  height: 530,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 4),
-                        child: Text("Basic Information",style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF281657)
-                        ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 4.0),
-                        child: Divider(thickness: 1.5,),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                        child: Text("Full Name",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))
-                          ,),
-                      ),
-                      TextFormField(
-                        cursorColor: Colors.black,
-                        decoration: const InputDecoration(
-                          enabledBorder:OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xFFE6E0E8)
-                              ,
-                            ),
-                          ) ,
-                          hintText: "Enter Full Name",
-
-                          hintStyle: TextStyle(
-                            color: Color(0xFFB0A8BA)
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 14.0, horizontal: 14.0),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red
-                              // Color(0xFFB0A8BA),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Color(0xFFF9F6F9),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                        child: Text("Mobile Number",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-                      ),
-                      TextFormField(
-                        cursorColor: Colors.black,
-                        decoration: const InputDecoration(
-                          enabledBorder:OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFFE6E0E8)
-                              ,
-                            ),
-                          ),
-                          hintText: "Enter Mobile Number",
-                          hintStyle: TextStyle(
-                              color: Color(0xFFB0A8BA)
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 14.0, horizontal: 14.0),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFFF9F6F9),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Color(0xFFF9F6F9),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                        child: Text("Email ID",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-                      ),
-                      TextFormField(
-                        cursorColor: Colors.black,
-                        decoration: const InputDecoration(
-                          enabledBorder:OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFFE6E0E8)
-                              ,
-                            ),
-                          ),
-                          hintText: "Enter Email ID",
-                          hintStyle: TextStyle(
-                              color: Color(0xFFB0A8BA)
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 14.0, horizontal: 14.0),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                // color: Color(0xFFF9F6F9),
-                                ),
-                          ),
-                          filled: true,
-                          fillColor: Color(0xFFF9F6F9),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                        child: Text("project",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-                      ),
-                      DropdownButtonFormField<String>(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Select  Event Type from Dropdown';
-                          }
-                          return null;
-                        },
-                        items: [
-                          "Bhoomi Acres",
-                          "Second project",
-                          "Third Project"
-                        ]
-                            .map((label) => DropdownMenuItem(
-                                  value: label,
-                                  child: Text(label.toString()),
-                                ))
-                            .toList(),
-                        decoration: const InputDecoration(
-                          enabledBorder:OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFFE6E0E8)
-                              ,
-                            ),
-                          ),
-                          hintText: "Enter Email ID",
-                          hintStyle: TextStyle(
-                              color: Color(0xFFB0A8BA)
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 14.0, horizontal: 14.0),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                // color: Color(0xFFF9F6F9),
-                                ),
-                          ),
-                          filled: true,
-                          fillColor: Color(0xFFF9F6F9),
-                        ),
-                        icon: const Icon(Icons.arrow_drop_down_sharp),
-                        hint: const Text(
-                          "Select project",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))
-                        ),
-                        onChanged: (val) {
-                          // setState(() {});
-                        },
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                        child: Text("Select Type",style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-                      ),
-                      Row(
-                        children: [
-                          GroupButton(
-                            controller: radioButtonController,
-                            isRadio: true,
-                            buttons: const ["1 BHK", "2 BHK", "3 BHK"],
-
-                            onSelected: (value, index, isSelected) => print(
-                                "index is $index and value is $value , is selected $isSelected"),
-                            options: const GroupButtonOptions(
-
-                                unselectedColor: Color(0xFFF1EDF2),
-                                selectedColor: Color(0xFFF1EDF2),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                                spacing: 28,
-                                buttonWidth: 90,
-                                unselectedTextStyle:
-                                    TextStyle(color: Colors.black54),
-                                selectedTextStyle: TextStyle(
-                                  color: Colors.black,
-                                ),
-                                selectedBorderColor: Colors.black,
-                                unselectedBorderColor: Colors.grey,
-                                elevation: 0),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                );
-  }
-
-  Future<DateTime?> buildShowDatePicker(BuildContext context) {
-    return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100),
-        builder: (context, picker) {
-          return Theme(
-              data: ThemeData.dark().copyWith(
-                  colorScheme: const ColorScheme.dark(
-                primary: Colors.deepPurple,
-                onPrimary: Colors.white,
-                surface: Colors.pink,
-                onSurface: Colors.yellow,
-              )),
-              child: picker!);
-        });
+      padding: const EdgeInsets.all(15.0),
+      color: Colors.white,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(bottom: 4),
+            child: Text(
+              "Basic Information",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF281657)),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 4.0),
+            child: Divider(
+              thickness: 1.5,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+            child: Text(
+              "Full Name",
+              style: TextStyle(fontSize: 14, color: Color(0xFFB0A8BA)),
+            ),
+          ),
+          TextFormField(
+            controller: fullName,
+            cursorColor: Colors.black,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFFE6E0E8),
+                ),
+              ),
+              hintText: "Enter Full Name",
+              hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red
+                    // Color(0xFFB0A8BA),
+                    ),
+              ),
+              filled: true,
+              fillColor: Color(0xFFF9F6F9),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter name';
+              }
+              return null;
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+            child: Text("Mobile Number",
+                style: TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+          ),
+          TextFormField(
+            keyboardType: TextInputType.phone,
+            controller: mobileNumber,
+            cursorColor: Colors.black,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFFE6E0E8),
+                ),
+              ),
+              hintText: "Enter Mobile Number",
+              hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFFF9F6F9),
+                ),
+              ),
+              filled: true,
+              fillColor: Color(0xFFF9F6F9),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter mobile number';
+              }
+              return null;
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+            child: Text("Email ID",
+                style: TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+          ),
+          TextFormField(
+            controller: emailID,
+            cursorColor: Colors.black,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFFE6E0E8),
+                ),
+              ),
+              hintText: "Enter Email ID",
+              hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                    // color: Color(0xFFF9F6F9),
+                    ),
+              ),
+              filled: true,
+              fillColor: Color(0xFFF9F6F9),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter email';
+              }
+              return null;
+            },
+            keyboardType: TextInputType.emailAddress,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+            child: Text("project",
+                style: TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+          ),
+          DropdownButtonFormField<String>(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please Select from Dropdown';
+              }
+              return null;
+            },
+            items: ["Bhoomi Acres", "Second project", "Third Project"]
+                .map((label) => DropdownMenuItem(
+                      value: label,
+                      child: Text(label.toString()),
+                    ))
+                .toList(),
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFFE6E0E8),
+                ),
+              ),
+              hintText: "Enter Email ID",
+              hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                    // color: Color(0xFFF9F6F9),
+                    ),
+              ),
+              filled: true,
+              fillColor: Color(0xFFF9F6F9),
+            ),
+            icon: const Icon(Icons.arrow_drop_down_sharp),
+            hint: const Text("Select project",
+                style: TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+            onChanged: (val) {
+              setState(() {
+                String? type = val;
+              });
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+            child: Text("Select Type",
+                style: TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+          ),
+          Row(
+            children: [
+              GroupButton(
+                controller: radioButtonController,
+                isRadio: true,
+                buttons: const ["1 BHK", "2 BHK", "3 BHK"],
+                onSelected: (value, index, isSelected) => print(
+                    "index is $index and value is $value , is selected $isSelected"),
+                options: const GroupButtonOptions(
+                    unselectedColor: Color(0xFFF1EDF2),
+                    selectedColor: Color(0xFFF1EDF2),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    spacing: 28,
+                    buttonWidth: 90,
+                    unselectedTextStyle: TextStyle(color: Colors.black54),
+                    selectedTextStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                    selectedBorderColor: Colors.black,
+                    unselectedBorderColor: Colors.grey,
+                    elevation: 0),
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
+// class for Additional Information...
 class AdditionalInfoContainer extends StatefulWidget {
   const AdditionalInfoContainer({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AdditionalInfoContainer> createState() => _AdditionalInfoContainerState();
+  State<AdditionalInfoContainer> createState() =>
+      _AdditionalInfoContainerState();
 }
 
-final List<TextEditingController> _controllers = [    TextEditingController(),  ];
+final List<TextEditingController> _controllers = [
+  TextEditingController(),
+];
 
 class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
-
-
   final TextEditingController purposeController = TextEditingController();
   final TextEditingController contfun = TextEditingController();
-  final TextEditingController _generatedController = TextEditingController();
-
-
-
   void _addController(String input) {
     // Generate a word related to the input word
     // String generatedWord = input;
-
 
     // Create a map to store the controllers
     Map<String, TextEditingController> controllers = {};
@@ -490,260 +364,367 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
     String variableName = input;
     // controllers[variableName]=TextEditingController();
 
-
     // Add the controller to the list of controllers
     setState(() {
-      _controllers.add(controllers[variableName]=TextEditingController());
-      ediddd=_controllers;
+      _controllers.add(controllers[variableName] = TextEditingController());
+      ediddd = _controllers;
     });
   }
 
-  List _textFields=[];
-  List PurposeControolerValueList=[];
-  List funControoler=[];
+  List _textFields = [];
+  List PurposeControllerValueList = [];
 
   void _addTextField() {
-    print("_addTextField running");
     setState(() {
-
-      print("in setstate-----");
-      print(_controllers);
-      print("__________________");
-      // print(_controllers(_controllers.length-1));
-      print(_controllers.last);
       _textFields.add(
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-               Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-                child:
-                Text(PurposeControolerValueList[PurposeControolerValueList. length - 1],style: TextStyle(fontSize: 14,color: Color(0xFFB0A8BA))),
-              ),
-
-              TextFormField(
-                controller: _controllers.last,
-
-                cursorColor: Colors.black,
-                decoration:  InputDecoration(
-                  enabledBorder:const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(0xFFE6E0E8)
-                      ,
-                    ),
-                  ) ,
-                  hintText: "Enter ${PurposeControolerValueList[PurposeControolerValueList. length - 1]}",
-
-                  hintStyle: const TextStyle(
-                      color: Color(0xFFB0A8BA)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+              child: Text(PurposeControllerValueList.last,
+                  style:
+                      const TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+            ),
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              controller: _controllers.last,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xFFE6E0E8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 14.0, horizontal: 14.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.red
-                      // Color(0xFFB0A8BA),
-                    ),
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xFFF9F6F9),
                 ),
+                hintText: "Enter ${PurposeControllerValueList.last}",
+                hintStyle: const TextStyle(color: Color(0xFFB0A8BA)),
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14.0, horizontal: 14.0),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red
+                      // Color(0xFFB0A8BA),
+                      ),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFF9F6F9),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
       );
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
+    // bool isactive=context.watch<OnsiteProviderForStateManagement>().toggleIsActive(isvisible);
+    var provider = context.watch<VisibilityProvider>().isVisible;
+
     return Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: Container(
-                        padding: const EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.white,
-                      child: ExpandablePanel(
-                        header: const Padding(
-                          padding: EdgeInsets.only(top: 4.0),
-                          child: Text("Additional Information",style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF281657)
-                          ),),
-                        ),
-                          collapsed: const SizedBox(),
-                          expanded:  Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 4.0,bottom: 4.0),
-                                child: Divider(thickness: 1.5,),
+        padding: const EdgeInsets.only(top: 18.0),
+        child: Container(
+          padding: const EdgeInsets.all(10.0),
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white,
+          child: ExpandablePanel(
+            header: const Padding(
+              padding: EdgeInsets.only(top: 4.0),
+              child: Text(
+                "Additional Information",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF281657)),
+              ),
+            ),
+            collapsed: const SizedBox(),
+            expanded: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                  child: Divider(
+                    thickness: 1.5,
+                  ),
+                ),
+                Column(
+                  children: [
+                    for (var textfield in _textFields) textfield,
+                  ],
+                ),
+                Visibility(
+                  visible: provider,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6.0, top: 10.0),
+                        child: TextFormField(
+                          controller: purposeController,
+                          cursorColor: Colors.black,
+
+                          // onChanged: (text)=> _generateRelatedWord(text),
+                          decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xFFE6E0E8),
                               ),
-
-                              for(var textfield in _textFields) textfield,
-
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 6.0,top: 10.0),
-                                child: TextFormField(
-                                  controller: purposeController,
-                                  cursorColor: Colors.black,
-                                  onEditingComplete: (){
-                                    print("editing completed----");
-                                  },
-                                  onSaved: (text){
-                                    print("saving completed----$text");
-                                  },
-                                  onFieldSubmitted: (yah){
-                                    print("onfieldcompleted$yah");
-                                  },
-                                  // onChanged: (text)=> _generateRelatedWord(text),
-                                  decoration: const InputDecoration(
-                                    enabledBorder:OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFFE6E0E8)
-                                        ,
-                                      ),
-                                    ),
-                                    hintText: "Enter Additional Field",
-                                    hintStyle: TextStyle(
-                                        color: Color(0xFFB0A8BA)
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 14.0, horizontal: 14.0),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        // color: Color(0xFFF9F6F9),
-                                      ),
-                                    ),
-                                    filled: true,
-                                    fillColor: Color(0xFFF9F6F9),
+                            ),
+                            hintText: "Enter Additional Field",
+                            hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 14.0, horizontal: 14.0),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  // color: Color(0xFFF9F6F9),
                                   ),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  ElevatedButton.icon(
-                                      style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(18.0),
-                                          ),
-
-                                          backgroundColor: const Color(0XFF3EBEA8),
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500)),
-                                      onPressed: () {
-                                        _addController(purposeController.text.toString());
-                                        PurposeControolerValueList.add(purposeController.text.toString());
-                                        purposeController.clear();
-                                        _addTextField();
-                                      },
-                                      icon: const Icon(Icons.check_circle,
-                                          color: Colors.white),
-                                      label: const Text(
-                                        "Submit",
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: ElevatedButton.icon(
-                                        style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(18.0),
-                                            ),
-                                            side: const BorderSide(
-                                              color: Colors.black,
-                                            ),
-                                            backgroundColor: Colors.black,
-                                            textStyle: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500)),
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.cancel,
-                                            color: Colors.white),
-                                        label: const Text(
-                                          "Cancel",
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                  ),
-                                ],
-                              ),
-
-                              Row(
-                                children: [
-                                  ElevatedButton.icon(
-                                      style: ElevatedButton.styleFrom(
-                                          side: const BorderSide(
-                                            color: Color(0xFF8A60E0),
-
-                                          ),
-                                          // backgroundColor: Colors.purple,
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFF8A60E0),
-                                              fontWeight: FontWeight.w800)),
-                                      onPressed: () {
-                                        print("------------------");
-                                        print(_controllers);
-                                        // print(funControoler);
-                                        // _addPurposeText();
-                                        // _addTextField();
-                                        // AddCustomFieldWidget();
-                                      },
-                                      icon: const Icon(Icons.add,
-                                          color:Color(0xFF8A60E0)),
-                                      label: const Text(
-                                        "Custom Field",
-                                        style: TextStyle(color: Colors.black),
-                                      ))
-                                ],
-                              )
-                            ],
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF9F6F9),
                           ),
+                        ),
                       ),
-                    ));
+                      Row(
+                        children: [
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                  backgroundColor: const Color(0XFF3EBEA8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () {
+                                if (purposeController.text
+                                    .toString()
+                                    .isNotEmpty) {
+                                  _addController(
+                                      purposeController.text.toString());
+                                  PurposeControllerValueList.add(
+                                      purposeController.text.toString());
+                                  purposeController.clear();
+                                  _addTextField();
+                                  context.read<VisibilityProvider>().hide();
+                                }
+                              },
+                              icon: const Icon(Icons.check_circle,
+                                  color: Colors.white),
+                              label: const Text(
+                                "Submit",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                    side: const BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                    backgroundColor: Colors.black,
+                                    textStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                                onPressed: () {
+                                  context.read<VisibilityProvider>().hide();
+                                },
+                                icon: const Icon(Icons.cancel,
+                                    color: Colors.white),
+                                label: const Text(
+                                  "Cancel",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            side: const BorderSide(
+                              color: Color(0xFF8A60E0),
+                            ),
+                            // backgroundColor: Colors.purple,
+                            textStyle: const TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF8A60E0),
+                                fontWeight: FontWeight.w800)),
+                        onPressed: () {
+                          context.read<VisibilityProvider>().show();
+                        },
+                        icon: const Icon(Icons.add, color: Color(0xFF8A60E0)),
+                        label: const Text(
+                          "Custom Field",
+                          style: TextStyle(color: Colors.black),
+                        ))
+                  ],
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
 
+// Class for Schedule Site Visit
+class ScheduleSiteVisit extends StatefulWidget {
+  const ScheduleSiteVisit({
+    Key? key,
+  }) : super(key: key);
 
-
-// for Custom Field Widget
-
-class AddCustomFieldWidget extends StatefulWidget {
   @override
-  _AddCustomFieldWidgetState createState() => _AddCustomFieldWidgetState();
+  State<ScheduleSiteVisit> createState() => _ScheduleSiteVisitState();
 }
 
-
-class _AddCustomFieldWidgetState extends State<AddCustomFieldWidget> {
-
-  // create the list to store the values
-  List<String> values = [];
-
+class _ScheduleSiteVisitState extends State<ScheduleSiteVisit> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      // specify the onChanged callback
-      onChanged: (input) {
-
-        print(input);
-        // add the input value to the list
-        values.add(input);
-        // trigger a rebuild of the widget to update the UI
-        setState(() {});
-        // When the user enters a value in the input field,
-        // the onChanged callback will be called,
-        // the input value will be added to the values list,
-        // and the widget will be rebuilt to update the UI with the new value.
-      },
+    bool WatchToggle = context.watch<VisibilityProvider>().toggle;
+    return Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Container(
+        padding: const EdgeInsets.all(10.0),
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Schedule Site Visit",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF281657))),
+                FlutterSwitch(
+                    height: 24,
+                    width: 50,
+                    activeColor: const Color(0XFF3EBEA8),
+                    value: WatchToggle,
+                    onToggle: (value) {
+                      context.read<VisibilityProvider>().toggling();
+                    })
+              ],
+            ),
+            Visibility(
+              visible: WatchToggle,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                    child: Divider(
+                      thickness: 1.5,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                    child: Text("Expected Date",
+                        style:
+                            TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+                  ),
+                  TextFormField(
+                    validator: (value){
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter date';
+                      }
+                      return null;
+                    },
+                    maxLines: 1,
+                    cursorColor: Colors.black,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFE6E0E8),
+                        ),
+                      ),
+                      suffixIcon: Icon(
+                        Icons.calendar_today_outlined,
+                        color: Colors.grey,
+                      ),
+                      hintText: "Select Date",
+                      hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 14.0),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            // color: Color(0xFFF9F6F9),
+                            ),
+                      ),
+                      filled: true,
+                      fillColor: Color(0xFFF9F6F9),
+                    ),
+                    focusNode: AlwaysDisabledFocusNode1(),
+                    onTap: () async {
+                      var date = await showDatePicker(
+                          builder: (context, picker) {
+                            return Theme(
+                                data: ThemeData.dark().copyWith(
+                                    colorScheme: const ColorScheme.dark(
+                                  primary: Color(0xFFC5CAE9),
+                                  onPrimary: Colors.white,
+                                  surface: Colors.black,
+                                  onSurface: Colors.white,
+                                )),
+                                child: picker!);
+                          },
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2100));
+                      dateController.text = date.toString().substring(0, 10);
+                    },
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: dateController,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                    child: Text("Notes",
+                        style:
+                            TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
+                  ),
+                  TextFormField(
+                    maxLines: 3,
+                    cursorColor: Colors.black,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFE6E0E8),
+                        ),
+                      ),
+                      hintText: "Enter Notes",
+                      hintStyle: TextStyle(color: Color(0xFFB0A8BA)),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 14.0),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            // color: Color(0xFFF9F6F9),
+                            ),
+                      ),
+                      filled: true,
+                      fillColor: Color(0xFFF9F6F9),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
-
 
 class AlwaysDisabledFocusNode1 extends FocusNode {
   @override
