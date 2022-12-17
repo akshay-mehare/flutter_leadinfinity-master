@@ -131,8 +131,12 @@ class _BasicInfoState extends State<BasicInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15)
+      ),
       padding: const EdgeInsets.all(15.0),
-      color: Colors.white,
+
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,9 +432,13 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
     return Padding(
         padding: const EdgeInsets.only(top: 18.0),
         child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15)
+          ),
           padding: const EdgeInsets.all(10.0),
           width: MediaQuery.of(context).size.width,
-          color: Colors.white,
+
           child: ExpandablePanel(
             header: const Padding(
               padding: EdgeInsets.only(top: 4.0),
@@ -593,9 +601,13 @@ class _ScheduleSiteVisitState extends State<ScheduleSiteVisit> {
     return Padding(
       padding: const EdgeInsets.only(top: 18.0),
       child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
         padding: const EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width,
-        color: Colors.white,
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
