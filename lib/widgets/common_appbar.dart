@@ -19,7 +19,9 @@ class AppBars extends AppBar {
         backgroundColor: Colors.black26,
         child: IconButton(
           icon: const Icon(Icons.person, color: Colors.white, size: 20),
-          onPressed: () {},
+          onPressed: () {
+
+          },
         ),
       ),
     ),

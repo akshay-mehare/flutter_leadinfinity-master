@@ -29,6 +29,68 @@ final TextEditingController project = TextEditingController();
 String type = "";
 
 class _OnsiteRegistrationState extends State<OnsiteRegistration> {
+
+  //on Submit Successful dialogue box
+  showDataAlert() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10.0,
+                ),
+              ),
+            ),
+            contentPadding: const EdgeInsets.only(
+              top: 10.0,
+            ),
+            title:  Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                  size: 28,
+                ),
+              ),
+            ),
+            content: SizedBox(
+              height: 200,
+              width: 350,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  Icon(
+                    Icons.check_circle,
+                    color: Color(0XFF3EBEA8),
+                    size: 80,
+                  ),
+                  // h=220,
+                  // w=350
+
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
+                    child: Text(
+                      "Lead Generated Successfully!",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text(
+                    "#6421",
+                    style: TextStyle(fontSize: 14,color: Color(0XFF5932BE)),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +152,7 @@ class _OnsiteRegistrationState extends State<OnsiteRegistration> {
                           shadowColor: Colors.transparent,
                         ),
                         onPressed: () {
+                          showDataAlert();
                           if (_formKey.currentState!.validate()) {}
                         },
                         child: const Center(
@@ -132,11 +195,8 @@ class _BasicInfoState extends State<BasicInfo> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15)
-      ),
+          color: Colors.white, borderRadius: BorderRadius.circular(15)),
       padding: const EdgeInsets.all(15.0),
-
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,12 +493,9 @@ class _AdditionalInfoContainerState extends State<AdditionalInfoContainer> {
         padding: const EdgeInsets.only(top: 18.0),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15)
-          ),
+              color: Colors.white, borderRadius: BorderRadius.circular(15)),
           padding: const EdgeInsets.all(10.0),
           width: MediaQuery.of(context).size.width,
-
           child: ExpandablePanel(
             header: const Padding(
               padding: EdgeInsets.only(top: 4.0),
@@ -602,12 +659,11 @@ class _ScheduleSiteVisitState extends State<ScheduleSiteVisit> {
       padding: const EdgeInsets.only(top: 18.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
         padding: const EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width,
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -647,7 +703,7 @@ class _ScheduleSiteVisitState extends State<ScheduleSiteVisit> {
                             TextStyle(fontSize: 14, color: Color(0xFFB0A8BA))),
                   ),
                   TextFormField(
-                    validator: (value){
+                    validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter date';
                       }

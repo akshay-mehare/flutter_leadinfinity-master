@@ -37,9 +37,12 @@ class _MenuItemsState extends State<MenuItems> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.flag_outlined,color: Color(0xFFFF699C),size: 35,),
-                          Text("Leads",style: TextStyle(
-                            color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Leads",style: TextStyle(
+                              color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
+                            ),),
+                          )
                         ],
                       ),
                     ),
@@ -62,9 +65,12 @@ class _MenuItemsState extends State<MenuItems> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.location_city_outlined,color: Color(0xFFFF699C),size: 35,),
-                          Text("Site Visits",style: TextStyle(
-                              color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Site Visits",style: TextStyle(
+                                color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
+                            ),),
+                          )
                         ],
                       ),
                     ),
@@ -91,9 +97,12 @@ class _MenuItemsState extends State<MenuItems> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.home_work_outlined,color: Color(0xFFFF699C),size: 35,),
-                          Text("Flat Reservation",style: TextStyle(
-                              color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Flat Reservation",style: TextStyle(
+                                color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
+                            ),),
+                          )
                         ],
                       ),
                     ),
@@ -116,9 +125,12 @@ class _MenuItemsState extends State<MenuItems> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.inventory_outlined,color: Color(0xFFFF699C),size: 35,),
-                          Text("Inventory",style: TextStyle(
-                              color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Inventory",style: TextStyle(
+                                color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
+                            ),),
+                          )
                         ],
                       ),
                     ),
@@ -145,9 +157,12 @@ class _MenuItemsState extends State<MenuItems> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.spatial_tracking_outlined,color: Color(0xFFFF699C),size: 35,),
-                          Text("Sales Tracker",style: TextStyle(
-                              color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Sales Tracker",style: TextStyle(
+                                color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
+                            ),),
+                          )
                         ],
                       ),
                     ),
@@ -170,9 +185,12 @@ class _MenuItemsState extends State<MenuItems> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Icon(Icons.restore_page_outlined,color: Color(0xFFFF699C),size: 35,),
-                          Text("Blockings",style: TextStyle(
-                              color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Blockings",style: TextStyle(
+                                color: Color(0xFF55433C),fontSize: 16,fontWeight: FontWeight.bold
+                            ),),
+                          )
                         ],
                       ),
                     ),

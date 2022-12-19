@@ -26,9 +26,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final screens = [
      HomePageClass(),
-    Calender(),
-    MyHomePagee(),
-    MyFormWidget()
+    CalendarApp(),
+     Contact(),
+    MenuItems()
 
   ];
   @override
